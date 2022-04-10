@@ -1,0 +1,21 @@
+title: zzz
+frequency: 3
+dirfilter:
+- tmp
+- .git
+- public
+- scripts
+- vendor
+- logs
+- templates
+ext:
+- go
+enablerun: true
+action:
+  before:
+  - find . -name ".DS_Store" -print -delete
+  - go mod tidy
+  - go mod vendor
+  after:
+  - ps -ef|grep 'simdht service'| grep -v grep | awk '{print $2}' | xargs kill -9  && ./simdht service &
+link: https://github.com/midoks/zzz
