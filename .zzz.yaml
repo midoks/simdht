@@ -5,6 +5,7 @@ dirfilter:
 - .git
 - public
 - scripts
+- assets
 - vendor
 - logs
 - templates
@@ -15,6 +16,9 @@ enablerun: true
 action:
   before:
   - find . -name ".DS_Store" -print -delete
+  - go generate internal/assets/conf/conf.go
+  - go generate internal/assets/public/public.go
+  - go generate internal/assets/templates/templates.go
   - go mod tidy
   - go mod vendor
   after:
