@@ -8,6 +8,7 @@ dirfilter:
 - vendor
 - logs
 - templates
+- .gitignore
 ext:
 - go
 enablerun: true
