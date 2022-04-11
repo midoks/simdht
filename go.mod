@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/fasthttp/router v1.4.8
+	github.com/shiyanhui/dht v0.0.0-20201219151056-5a20f3199263
 	github.com/urfave/cli v1.22.5
 	github.com/valyala/fasthttp v1.35.0
 )

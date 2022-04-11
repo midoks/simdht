@@ -7,6 +7,8 @@ import (
 	"github.com/fasthttp/router"
 	"github.com/urfave/cli"
 	"github.com/valyala/fasthttp"
+
+	"github.com/midoks/simdht/internal/dht"
 )
 
 var Service = cli.Command{
@@ -26,6 +28,9 @@ func runAllService(c *cli.Context) error {
 	// }
 
 	// app.Start(conf.Web.HttpPort)
+
+	//stat DHT
+	dht.Run()
 
 	r := router.New()
 	r.GET("/", Index)

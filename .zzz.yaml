@@ -18,6 +18,7 @@ action:
   - go mod tidy
   - go mod vendor
   after:
+  - ps -ef|grep 'simdht service'| grep -v grep | awk '{print $2}' | xargs kill -9
   - ./simdht service &
   exit:
   - ps -ef|grep 'simdht service'| grep -v grep
