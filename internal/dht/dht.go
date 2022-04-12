@@ -29,6 +29,8 @@ func Run() {
 		// once we got the request result
 		for resp := range downloader.Response() {
 			fmt.Println("downloader", hex.EncodeToString(resp.InfoHash))
+			metadata, err := sdht.Decode(resp.MetadataInfo)
+			fmt.Println(metadata, err)
 			fmt.Println("downloader", string(resp.InfoHash), string(resp.MetadataInfo))
 		}
 	}()
@@ -43,6 +45,5 @@ func Run() {
 	}
 	d := sdht.New(config)
 
-	go d.Run()
-
+	d.Run()
 }

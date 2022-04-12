@@ -66,7 +66,7 @@ func Init(customConf string) error {
 	logs.Init()
 
 	//stat DHT
-	dht.Run()
+	go dht.Run()
 
 	if conf.App.RunMode != "prod" {
 
