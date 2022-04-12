@@ -13,7 +13,6 @@ func Start(port string) {
 	r.GET("/", Index)
 	r.GET("/hello/{name}", Hello)
 
-	fmt.Println(":" + port)
 	if err := fasthttp.ListenAndServe(":"+port, r.Handler); err != nil {
 		fmt.Errorf("Error in ListenAndServe: %v", err)
 	}

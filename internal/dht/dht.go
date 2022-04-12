@@ -1,50 +1,34 @@
 package dht
 
 import (
-	"bufio"
+	"encoding/hex"
 	"fmt"
-	"net"
-	"net/http"
-	_ "net/http/pprof"
 
 	sdht "github.com/shiyanhui/dht"
 )
 
 var connectResponse = []byte("HTTP/1.1 200 OK\r\n\r\n")
 
-func handleConn(conn net.Conn) {
-	defer conn.Close()
-	for {
-
-		reader := bufio.NewReader(conn)
-		var buf [4096]byte
-		n, err := reader.Read(buf[:])
-		if err != nil {
-			fmt.Println("read from client failed, err:", err)
-			break
-		}
-		recvStr := string(buf[:n])
-
-		fmt.Println("收到client端发来的数据：", recvStr)
-		conn.Write(connectResponse)
-		conn.Write([]byte("ddd24")) //发送数据
-		break
-	}
+type file struct {
+	Path   []interface{} `json:"path"`
+	Length int           `json:"length"`
 }
 
-func Debug() {
+type bitTorrent struct {
+	InfoHash string `json:"infohash"`
+	Name     string `json:"name"`
+	Files    []file `json:"files,omitempty"`
+	Length   int    `json:"length,omitempty"`
+}
 
-	// go tool pprof --seconds 30 http://localhost:6060/debug/pprof/profile
-	// go tool pprof -listen=11010 --seconds 30 http://localhost:6060/debug/pprof/profile
-
-	// go tool pprof -pdf profile.out > cpu.pdf
-	// go tool pprof -pdf memprofile.out > mem.pdf
-	go http.ListenAndServe(":6060", nil)
+func Run() {
+	fmt.Println("DHT START")
 
 	downloader := sdht.NewWire(65536, 1024, 256)
 	go func() {
 		// once we got the request result
 		for resp := range downloader.Response() {
+			fmt.Println("downloader", hex.EncodeToString(resp.InfoHash))
 			fmt.Println("downloader", string(resp.InfoHash), string(resp.MetadataInfo))
 		}
 	}()
@@ -53,34 +37,12 @@ func Debug() {
 	config := sdht.NewCrawlConfig()
 	config.OnAnnouncePeer = func(infoHash, ip string, port int) {
 		// request to download the metadata info
-		fmt.Println("an", infoHash, ip, port)
+		fmt.Println(hex.EncodeToString([]byte(infoHash)))
+		fmt.Println("announce peer:", infoHash, ip, port)
 		downloader.Request([]byte(infoHash), ip, port)
 	}
 	d := sdht.New(config)
 
-	d.Run()
-}
-
-func Run() {
-	fmt.Println("DHT START")
-
-	go Debug()
-
-	l, err := net.Listen("tcp", ":8188")
-	if err != nil {
-		fmt.Println("listen error:", err)
-		return
-	}
-
-	for {
-		c, err := l.Accept()
-		if err != nil {
-			fmt.Println("accept error:", err)
-			break
-		}
-		// start a new goroutine to handle
-		// the new connection.
-		go handleConn(c)
-	}
+	go d.Run()
 
 }

@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/urfave/cli"
 
 	"github.com/midoks/simdht/internal/app"
@@ -23,10 +21,10 @@ var Service = cli.Command{
 func runAllService(c *cli.Context) error {
 
 	err := router.Init("")
-	fmt.Println("runAllService:", err)
 	if err != nil {
 		return err
 	}
+
 	app.Start(conf.Web.HttpPort)
 	return nil
 }

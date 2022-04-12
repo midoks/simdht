@@ -2,11 +2,11 @@ package router
 
 import (
 	"fmt"
-	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"path/filepath"
-	"strings"
+
+	"net/http"
+	_ "net/http/pprof"
 
 	"gopkg.in/ini.v1"
 
@@ -48,7 +48,7 @@ func autoMakeCustomConf(customConf string) error {
 func Init(customConf string) error {
 	var err error
 
-	if strings.EqualFold(customConf, "") {
+	if customConf == "" {
 		customConf = filepath.Join(conf.CustomDir(), "conf", "app.conf")
 	} else {
 		customConf, err = filepath.Abs(customConf)
@@ -68,7 +68,14 @@ func Init(customConf string) error {
 	//stat DHT
 	dht.Run()
 
-	if strings.EqualFold(conf.App.RunMode, "dev") {
+	if conf.App.RunMode != "prod" {
+
+		// go tool pprof --seconds 30 http://localhost:6060/debug/pprof/profile
+		// go tool pprof -http=11010 --seconds 30 http://localhost:6060/debug/pprof/profile
+
+		// go tool pprof -pdf profile.out > cpu.pdf
+		// go tool pprof -pdf memprofile.out > mem.pdf
+
 		go func() {
 			http.ListenAndServe(":6060", nil)
 		}()
