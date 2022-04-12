@@ -15,7 +15,7 @@ else
 	git pull https://github.com/midoks/simdht
 fi
 
-cd $TAGRT_DIR/simdht/simdht
+cd $TAGRT_DIR/simdht
 
 go mod tidy
 go mod vendor
