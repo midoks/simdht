@@ -24,6 +24,6 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		log.Println("Failed to start application: %v", err)
+		log.Println("Failed to start application: %s", err)
 	}
 }
