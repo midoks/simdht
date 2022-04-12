@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"net/http"
+	_ "net/http/pprof"
 
 	sdht "github.com/shiyanhui/dht"
 )
@@ -13,10 +15,7 @@ var connectResponse = []byte("HTTP/1.1 200 OK\r\n\r\n")
 func handleConn(conn net.Conn) {
 	defer conn.Close()
 	for {
-		// read from the connection
-		// ... ...
-		// write to the connection
-		//... ...
+
 		reader := bufio.NewReader(conn)
 		var buf [4096]byte
 		n, err := reader.Read(buf[:])
@@ -30,11 +29,18 @@ func handleConn(conn net.Conn) {
 		conn.Write(connectResponse)
 		conn.Write([]byte("ddd24")) //发送数据
 		break
-
 	}
 }
 
 func Debug() {
+
+	// go tool pprof --seconds 30 http://localhost:6060/debug/pprof/profile
+	// go tool pprof -listen=11010 --seconds 30 http://localhost:6060/debug/pprof/profile
+
+	// go tool pprof -pdf profile.out > cpu.pdf
+	// go tool pprof -pdf memprofile.out > mem.pdf
+	go http.ListenAndServe(":6060", nil)
+
 	downloader := sdht.NewWire(65536, 1024, 256)
 	go func() {
 		// once we got the request result

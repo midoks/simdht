@@ -18,3 +18,4 @@ simdht
 internal/assets/templates/templates_gen.go
 internal/assets/conf/conf_gen.go
 internal/assets/public/public_gen.go
+custom

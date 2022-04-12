@@ -1,8 +1,8 @@
 package conf
 
 import (
-	"net/url"
-	"os"
+// "net/url"
+// "os"
 )
 
 // CustomConf returns the absolute path of custom configuration file that is used.
@@ -63,28 +63,6 @@ var (
 		LoadAssetsFromDisk bool
 
 		LandingURL string `ini:"LANDING_URL"`
-
-		// Derived from other static values
-		URL            *url.URL    `ini:"-"` // Parsed URL object of ExternalURL.
-		Subpath        string      `ini:"-"` // Subpath found the ExternalURL. Should be empty when not found.
-		SubpathDepth   int         `ini:"-"` // The number of slashes found in the Subpath.
-		UnixSocketMode os.FileMode `ini:"-"` // Parsed file mode of UnixSocketPermission.
-
-		MailSaveMode string
-	}
-
-	// Authentication settings
-	Auth struct {
-		ActivateCodeLives         int
-		ResetPasswordCodeLives    int
-		RequireEmailConfirmation  bool
-		RequireSigninView         bool
-		DisableRegistration       bool
-		EnableRegistrationCaptcha bool
-
-		EnableReverseProxyAuthentication   bool
-		EnableReverseProxyAutoRegistration bool
-		ReverseProxyAuthenticationHeader   string
 	}
 
 	// Session settings
@@ -96,51 +74,6 @@ var (
 		GCInterval     int64 `ini:"gc_interval"`
 		MaxLifeTime    int64
 		CSRFCookieName string `ini:"csrf_cookie_name"`
-	}
-
-	// Smtp settings
-	Smtp struct {
-		Port      int
-		Enable    bool
-		Debug     bool
-		SslEnable bool
-		SslPort   int
-		ModeIn    bool
-	}
-
-	// Pop settings
-	Pop3 struct {
-		Port      int
-		Enable    bool
-		Debug     bool
-		SslEnable bool
-		SslPort   int
-		ModeIn    bool
-	}
-
-	// Imap settings
-	Imap struct {
-		Port      int
-		Enable    bool
-		Debug     bool
-		SslEnable bool
-		SslPort   int
-		ModeIn    bool
-	}
-
-	//rspamd
-	Rspamd struct {
-		Enable                bool
-		Domain                string
-		Password              string
-		RecjectConditionScore float64
-	}
-
-	//Hook
-	Hook struct {
-		Enable        bool
-		ReceiveScript string
-		SendScript    string
 	}
 
 	// Security settings

@@ -3,16 +3,11 @@ package conf
 import (
 	"fmt"
 	"log"
-	"net/url"
-	"os"
 	"path/filepath"
-	"strconv"
-	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/ini.v1"
 
-	// "github.com/midoks/imail/internal/log"
 	"github.com/midoks/simdht/internal/assets/conf"
 	"github.com/midoks/simdht/internal/tools"
 )
@@ -40,8 +35,9 @@ func Init(customConf string) error {
 	File, err := ini.LoadSources(ini.LoadOptions{
 		IgnoreInlineComment: true,
 	}, conf.MustAsset("conf/app.conf"))
+
 	if err != nil {
-		return errors.Wrap(err, "parse 'conf/app.conf'")
+		return fmt.Errorf("parse 'conf/app.conf' : %s", err)
 	}
 
 	File.NameMapper = ini.TitleUnderscore
@@ -83,43 +79,12 @@ func Init(customConf string) error {
 		return errors.Wrap(err, "mapping [web] section")
 	}
 
-	Web.AppDataPath = ensureAbs(Web.AppDataPath)
-
-	if !strings.HasSuffix(Web.ExternalURL, "/") {
-		Web.ExternalURL += "/"
-	}
-	Web.URL, err = url.Parse(Web.ExternalURL)
-	if err != nil {
-		return errors.Wrapf(err, "parse '[server] EXTERNAL_URL' %q", err)
-	}
-
-	// Subpath should start with '/' and end without '/', i.e. '/{subpath}'.
-	Web.Subpath = strings.TrimRight(Web.URL.Path, "/")
-	Web.SubpathDepth = strings.Count(Web.Subpath, "/")
-
-	unixSocketMode, err := strconv.ParseUint(Web.UnixSocketPermission, 8, 32)
-	if err != nil {
-		return errors.Wrapf(err, "parse '[server] unix_socket_permission' %q", Web.UnixSocketPermission)
-	}
-	if unixSocketMode > 0777 {
-		unixSocketMode = 0666
-	}
-	Web.UnixSocketMode = os.FileMode(unixSocketMode)
-
 	// ****************************
 	// ----- Session settings -----
 	// ****************************
 
 	if err = File.Section("session").MapTo(&Session); err != nil {
 		return errors.Wrap(err, "mapping [session] section")
-	}
-
-	// *****************************
-	// ----- Security settings -----
-	// *****************************
-
-	if err = File.Section("security").MapTo(&Security); err != nil {
-		return errors.Wrap(err, "mapping [security] section")
 	}
 
 	// ***************************
