@@ -7,7 +7,6 @@ require (
 	github.com/fasthttp/router v1.4.8
 	github.com/phachon/go-logger v0.0.0-20191215032019-86e4227f71ea
 	github.com/pkg/errors v0.9.1
-	github.com/shiyanhui/dht v0.0.0-20201219151056-5a20f3199263
 	github.com/urfave/cli v1.22.5
 	github.com/valyala/fasthttp v1.35.0
 	gopkg.in/ini.v1 v1.66.4
