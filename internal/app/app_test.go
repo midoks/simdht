@@ -14,6 +14,8 @@ import (
 	"time"
 
 	"github.com/valyala/fasthttp"
+
+	"github.com/midoks/simdht/internal/app/router/admin"
 )
 
 var defaultClientsCount = runtime.NumCPU()
@@ -92,8 +94,8 @@ func (c *fakeServerConn) SetWriteDeadline(t time.Time) error {
 
 // go test -bench=. -benchmem -benchtime=1s
 
-// go test -bench=BenchmarkServerGet1ReqPerConn -benchmem -benchtime=1s
-func BenchmarkServerGet1ReqPerConn(b *testing.B) {
+// go test -bench=BenchmarkServerGetGC -benchmem -benchtime=1s
+func BenchmarkServerGetGC(b *testing.B) {
 	benchmarkServerGet(b, defaultClientsCount, 1)
 }
 func benchmarkServerGet(b *testing.B, clientsCount, requestsPerConn int) {
@@ -104,7 +106,7 @@ func benchmarkServerGet(b *testing.B, clientsCount, requestsPerConn int) {
 				b.Fatalf("Unexpected request method: %q", ctx.Method())
 			}
 
-			GcInfo(ctx)
+			admin.GcInfo(ctx)
 
 			if requestsPerConn == 1 {
 				ctx.SetConnectionClose()

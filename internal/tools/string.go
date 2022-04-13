@@ -21,13 +21,6 @@ import (
 	"github.com/axgle/mahonia"
 )
 
-func GetGoEol() string {
-	// if "windows" == runtime.GOOS {
-	// 	return "\r\n"
-	// }
-	return "\r\n"
-}
-
 func Md5Byte(buf []byte) string {
 	hash := md5.New()
 	hash.Write(buf)
