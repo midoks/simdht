@@ -26,7 +26,7 @@ type bitTorrent struct {
 func Run() {
 	fmt.Println("DHT START")
 
-	downloader := sdht.NewWire(65536, 65536, 65536)
+	downloader := sdht.NewWire(65536, 1024, 256)
 	go func() {
 		// once we got the request result
 		for resp := range downloader.Response() {
@@ -40,8 +40,6 @@ func Run() {
 			if _, ok := info["name"]; !ok {
 				continue
 			}
-
-			fmt.Println("info", info)
 
 			bt := bitTorrent{
 				InfoHash: hex.EncodeToString(resp.InfoHash),
@@ -82,9 +80,12 @@ func Run() {
 	config.CheckKBucketPeriod = time.Duration(time.Second * 3)
 	d := sdht.New(config)
 
+	d.OnGetPeersResponse = func(infoHash string, peer *sdht.Peer) {
+		fmt.Printf("GOT PEER: <%s:%d>\n", peer.IP, peer.Port)
+	}
 	go func() {
 		for {
-			fmt.Println(d.PrimeNodes)
+			// fmt.Println("d.blackList len:", len(d.blackList))
 			time.Sleep(time.Second * 3)
 		}
 	}()
