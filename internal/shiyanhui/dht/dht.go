@@ -5,7 +5,7 @@ package dht
 import (
 	"encoding/hex"
 	"errors"
-	"fmt"
+	// "fmt"
 	"math"
 	"net"
 	"time"
@@ -272,8 +272,6 @@ func (dht *DHT) Run() {
 
 	dht.Ready = true
 
-	fmt.Println(dht.node)
-
 	var pkt packet
 	tick := time.Tick(dht.CheckKBucketPeriod)
 
@@ -282,8 +280,6 @@ func (dht *DHT) Run() {
 		case pkt = <-dht.packets:
 			handle(dht, pkt)
 		case <-tick:
-			fmt.Println("dht.routingTable.Len():", dht.routingTable.Len())
-			fmt.Println("dht.transactionManager.len():", dht.transactionManager.len())
 			if dht.routingTable.Len() == 0 {
 				dht.join()
 			} else if dht.transactionManager.len() == 0 {
