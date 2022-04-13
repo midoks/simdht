@@ -11,6 +11,7 @@ func Start(port string) {
 
 	r := router.New()
 	r.GET("/", Index)
+	r.GET("/gc", GcInfo)
 	r.GET("/hello/{name}", Hello)
 
 	if err := fasthttp.ListenAndServe(":"+port, r.Handler); err != nil {
@@ -21,6 +22,14 @@ func Start(port string) {
 func Hello(ctx *fasthttp.RequestCtx) {
 	fmt.Fprintf(ctx, "Hello, %s!\n", ctx.UserValue("name"))
 }
+
+func GcInfo(ctx *fasthttp.RequestCtx) {
+
+	// b := make([]byte, 10)
+	// fmt.Println(b)
+	fmt.Fprintf(ctx, "Hello, %s!\n", ctx.UserValue("name"))
+}
+
 func Index(ctx *fasthttp.RequestCtx) {
 	fmt.Fprintf(ctx, "Hello, world!\n\n")
 

@@ -26,5 +26,6 @@ action:
   - ./simdht service &
   exit:
   - ps -ef|grep 'simdht service'| grep -v grep
+  - rm -rf ./simdht
   - ps -ef|grep 'simdht service'| grep -v grep | awk '{print $2}' | xargs kill -9
 link: https://github.com/midoks/zzz
