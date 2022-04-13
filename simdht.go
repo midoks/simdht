@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/urfave/cli"
@@ -13,6 +12,11 @@ import (
 const Version = "0.0.1"
 const AppName = "simdht"
 
+func init() {
+	conf.App.Version = Version
+	conf.App.Name = AppName
+}
+
 func main() {
 
 	app := cli.NewApp()
@@ -23,7 +27,5 @@ func main() {
 		cmd.Service,
 	}
 
-	if err := app.Run(os.Args); err != nil {
-		log.Println("Failed to start application: %s", err)
-	}
+	app.Run(os.Args)
 }
