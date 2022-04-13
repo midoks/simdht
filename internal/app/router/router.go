@@ -65,7 +65,7 @@ func Init(customConf string) error {
 
 	conf.Init(customConf)
 	logs.Init()
-	mgdb.Init()
+	// mgdb.Init()
 
 	//stat DHT
 	go dht.Run()
