@@ -30,6 +30,8 @@ var (
 		len(fakeResponse), fakeResponse)
 )
 
+type RequestHandler func(ctx *fasthttp.RequestCtx)
+
 type realServer interface {
 	Serve(ln net.Listener) error
 }
@@ -94,10 +96,44 @@ func (c *fakeServerConn) SetWriteDeadline(t time.Time) error {
 
 // go test -bench=. -benchmem -benchtime=1s
 
-// go test -bench=BenchmarkServerGetGC -benchmem -benchtime=1s
-func BenchmarkServerGetGC(b *testing.B) {
-	benchmarkServerGet(b, defaultClientsCount, 1)
+// go test -bench=BenchmarkServerGet -benchmem -benchtime=1s
+func BenchmarkServerGetGcInfo(b *testing.B) {
+	benchmarkServerGetCallback(b, defaultClientsCount, 1, func(ctx *fasthttp.RequestCtx) {
+		admin.GcInfo(ctx)
+	})
 }
+
+func BenchmarkServerGetIndex(b *testing.B) {
+	benchmarkServerGetCallback(b, defaultClientsCount, 1, func(ctx *fasthttp.RequestCtx) {
+		Index(ctx)
+	})
+}
+
+func BenchmarkServerGetHello(b *testing.B) {
+	benchmarkServerGetCallback(b, defaultClientsCount, 1, func(ctx *fasthttp.RequestCtx) {
+		Hello(ctx)
+	})
+}
+
+func benchmarkServerGetCallback(b *testing.B, clientsCount, requestsPerConn int, handler RequestHandler) {
+	ch := make(chan struct{}, b.N)
+	s := &fasthttp.Server{
+		Handler: func(ctx *fasthttp.RequestCtx) {
+			if !ctx.IsGet() {
+				b.Fatalf("Unexpected request method: %q", ctx.Method())
+			}
+			handler(ctx)
+			if requestsPerConn == 1 {
+				ctx.SetConnectionClose()
+			}
+			registerServedRequest(b, ch)
+		},
+		Concurrency: 16 * clientsCount,
+	}
+	benchmarkServer(b, s, clientsCount, requestsPerConn, getRequest)
+	verifyRequestsServed(b, ch)
+}
+
 func benchmarkServerGet(b *testing.B, clientsCount, requestsPerConn int) {
 	ch := make(chan struct{}, b.N)
 	s := &fasthttp.Server{
