@@ -13,7 +13,7 @@ import (
 	"github.com/midoks/simdht/internal/conf"
 	"github.com/midoks/simdht/internal/dht"
 	"github.com/midoks/simdht/internal/logs"
-	"github.com/midoks/simdht/internal/mgdb"
+	// "github.com/midoks/simdht/internal/mgdb"
 	"github.com/midoks/simdht/internal/tools"
 )
 
