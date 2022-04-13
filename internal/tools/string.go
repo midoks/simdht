@@ -17,6 +17,7 @@ import (
 	"time"
 	"unicode"
 	"unicode/utf8"
+	"unsafe"
 
 	"github.com/axgle/mahonia"
 )
@@ -171,26 +172,35 @@ func FileSize(s int64) string {
 }
 
 func SizeFormat(size float64) string {
-	units := []string{"Byte", "KB", "MB", "GB", "TB"}
+	units := []string{"Byte", "KB", "MB", "GB", "TB", "PB", "EB"}
 	n := 0
 	for size > 1024 {
 		size /= 1024
 		n += 1
 	}
-
-	return fmt.Sprintf("%.2f %s", size, units[n])
+	return strconv.FormatFloat(size, 'f', 2, 32) + " " + units[n]
 }
 
 func RandString(len int) string {
-	r := rand.New(rand.NewSource(time.Now().Unix()))
 	bytes := make([]byte, len)
 	for i := 0; i < len; i++ {
-		b := r.Intn(26) + 65
+		b := rand.Intn(26) + 65
 		bytes[i] = byte(b)
 	}
-	return string(bytes)
+	return BytesToString(bytes)
 }
 
+//String to byte, only read-only
+func StringToBytes(str string) []byte {
+	x := (*[2]uintptr)(unsafe.Pointer(&str))
+	b := [3]uintptr{x[0], x[1], x[1]}
+	return *(*[]byte)(unsafe.Pointer(&b))
+}
+
+// Byte to string, only read-only
+func BytesToString(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
+}
 func RemoveDuplicatesAndEmpty(a []string) (ret []string) {
 	a_len := len(a)
 	for i := 0; i < a_len; i++ {
