@@ -10,8 +10,9 @@ import (
 )
 
 var (
+	err error
+
 	client     *mongo.Client
-	err        error
 	db         *mongo.Database
 	collection *mongo.Collection
 )
