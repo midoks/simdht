@@ -77,7 +77,8 @@ func Init(customConf string) error {
 	// go tool pprof -pdf memprofile.out > mem.pdf
 	if conf.App.RunMode != "prod" {
 		go func() {
-			http.ListenAndServe(":6060", nil)
+			port := fmt.Sprintf(":%s", conf.Debug.Port)
+			http.ListenAndServe(port, nil)
 		}()
 	}
 
