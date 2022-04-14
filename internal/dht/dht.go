@@ -6,22 +6,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/midoks/simdht/internal/mgdb"
 	sdht "github.com/midoks/simdht/internal/shiyanhui/dht"
 )
-
-var connectResponse = []byte("HTTP/1.1 200 OK\r\n\r\n")
-
-type file struct {
-	Path   []interface{} `json:"path"`
-	Length int           `json:"length"`
-}
-
-type bitTorrent struct {
-	InfoHash string `json:"infohash"`
-	Name     string `json:"name"`
-	Files    []file `json:"files,omitempty"`
-	Length   int    `json:"length,omitempty"`
-}
 
 func Run() {
 	fmt.Println("DHT START")
@@ -41,18 +28,18 @@ func Run() {
 				continue
 			}
 
-			bt := bitTorrent{
+			bt := mgdb.BitTorrent{
 				InfoHash: hex.EncodeToString(resp.InfoHash),
 				Name:     info["name"].(string),
 			}
 
 			if v, ok := info["files"]; ok {
 				files := v.([]interface{})
-				bt.Files = make([]file, len(files))
+				bt.Files = make([]mgdb.File, len(files))
 
 				for i, item := range files {
 					f := item.(map[string]interface{})
-					bt.Files[i] = file{
+					bt.Files[i] = mgdb.File{
 						Path:   f["path"].([]interface{}),
 						Length: f["length"].(int),
 					}
@@ -61,11 +48,12 @@ func Run() {
 				bt.Length = info["length"].(int)
 			}
 
+			mgdb.AddTorrent(bt)
+
 			data, err := json.Marshal(bt)
 			if err == nil {
 				fmt.Printf("%s\n\n", data)
 			}
-
 		}
 	}()
 	go downloader.Run()

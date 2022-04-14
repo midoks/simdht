@@ -2,30 +2,29 @@ package mgdb
 
 import (
 	"context"
-	// "fmt"
-	// "time"
 
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/qiniu/qmgo"
 )
 
 var (
-	err error
-
-	client     *mongo.Client
-	db         *mongo.Database
-	collection *mongo.Collection
+	err        error
+	ctx        context.Context
+	client     *qmgo.Client
+	db         *qmgo.Database
+	collection *qmgo.Collection
 )
 
 func Init() error {
 
-	clientOptions := options.Client().ApplyURI("mongodb://127.0.0.1:27017")
-	if client, err = mongo.Connect(context.TODO(), clientOptions); err != nil {
-		return err
-	}
+	ctx = context.Background()
+	client, err = qmgo.NewClient(ctx, &qmgo.Config{Uri: "mongodb://127.0.0.1:27017"})
 	db = client.Database("simdht")
 	collection = db.Collection("list")
-	collection = collection
 
+	defer func() {
+		if err = client.Close(ctx); err != nil {
+			panic(err)
+		}
+	}()
 	return nil
 }

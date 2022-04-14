@@ -27,6 +27,10 @@ var (
 		RunMode   string
 	}
 
+	Debug struct {
+		Port string
+	}
+
 	// log
 	Log struct {
 		Format   string

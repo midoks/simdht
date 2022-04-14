@@ -71,6 +71,13 @@ func Init(customConf string) error {
 		return errors.Wrap(err, "mapping [log] section")
 	}
 
+	// ***************************
+	// ----- Debug settings -----
+	// ***************************
+	if err = File.Section("debug").MapTo(&Debug); err != nil {
+		return errors.Wrap(err, "mapping [debug] section")
+	}
+
 	// ****************************
 	// ----- Web settings -----
 	// ****************************
