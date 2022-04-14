@@ -26,7 +26,6 @@ func autoMakeCustomConf(customConf string) error {
 	// auto make custom conf file
 	cfg := ini.Empty()
 	if tools.IsFile(customConf) {
-		// Keeps custom settings if there is already something.
 		if err := cfg.Append(customConf); err != nil {
 			return err
 		}
