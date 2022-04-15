@@ -40,7 +40,7 @@ type (
 		// Funcs is a slice of FuncMaps to apply to the template upon compilation. This is useful for helper functions. Default is [].
 		Funcs []template.FuncMap
 		// Delims sets the action delimiters to the specified strings in the Delims struct.
-		// Delims Delims
+		Delims Delims
 		// Appends the given charset to the Content-Type header. Default is "UTF-8".
 		Charset string
 		// Outputs human readable JSON.
@@ -58,7 +58,7 @@ type (
 	}
 )
 
-func Html(status int, name string) {
+func HTML(status int, name string) {
 
 }
 

@@ -7,6 +7,7 @@ import (
 	"github.com/valyala/fasthttp"
 
 	"github.com/midoks/simdht/internal/app/router/admin"
+	"github.com/midoks/simdht/internal/render"
 )
 
 func Start(port string) {
@@ -23,6 +24,7 @@ func Start(port string) {
 
 func Hello(ctx *fasthttp.RequestCtx) {
 	fmt.Fprintf(ctx, "Hello, %s!\n", ctx.UserValue("name"))
+	render.HTML(200, "index/index")
 }
 
 func Index(ctx *fasthttp.RequestCtx) {
