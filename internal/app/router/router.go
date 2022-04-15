@@ -70,7 +70,7 @@ func Init(customConf string) error {
 	go dht.Run()
 
 	// go tool pprof --seconds 30 http://localhost:6060/debug/pprof/profile
-	// go tool pprof -http=11010 --seconds 30 http://localhost:6060/debug/pprof/profile
+	// go tool pprof -http=:11011 --seconds 30 http://localhost:6060/debug/pprof/profile
 
 	// go tool pprof -pdf profile.out > cpu.pdf
 	// go tool pprof -pdf memprofile.out > mem.pdf

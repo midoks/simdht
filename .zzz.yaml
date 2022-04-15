@@ -7,6 +7,7 @@ dirfilter:
 - scripts
 - assets
 - vendor
+- costom
 - logs
 - templates
 - .gitignore
