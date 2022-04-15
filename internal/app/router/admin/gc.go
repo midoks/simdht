@@ -10,7 +10,7 @@ import (
 )
 
 // initTime is the time when the application was initialized.
-var initTime = time.Now()
+// var initTime = time.Now()
 
 var SysStatus runtime.MemStats
 

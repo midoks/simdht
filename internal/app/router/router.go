@@ -10,10 +10,12 @@ import (
 
 	"gopkg.in/ini.v1"
 
+	"github.com/midoks/simdht/internal/app/template"
 	"github.com/midoks/simdht/internal/conf"
 	"github.com/midoks/simdht/internal/dht"
 	"github.com/midoks/simdht/internal/logs"
 	"github.com/midoks/simdht/internal/mgdb"
+	"github.com/midoks/simdht/internal/render"
 	"github.com/midoks/simdht/internal/tools"
 )
 
@@ -65,6 +67,19 @@ func Init(customConf string) error {
 	conf.Init(customConf)
 	logs.Init()
 	mgdb.Init()
+
+	renderOpt := render.Options{
+		Directory:         filepath.Join(conf.WorkDir(), "templates"),
+		AppendDirectories: []string{filepath.Join(conf.CustomDir(), "templates")},
+		Funcs:             template.FuncMap(),
+		IndentJSON:        true,
+	}
+
+	// if !conf.Server.LoadAssetsFromDisk {
+	// 	renderOpt.TemplateFileSystem = templates.NewTemplateFileSystem("", renderOpt.AppendDirectories[0])
+	// }
+
+	render.Renderer(renderOpt)
 
 	//stat DHT
 	go dht.Run()
