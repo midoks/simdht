@@ -21,10 +21,10 @@ func Init() error {
 	db = client.Database("simdht")
 	collection = db.Collection("list")
 
-	defer func() {
-		if err = client.Close(ctx); err != nil {
-			panic(err)
-		}
-	}()
+	// defer func() {
+	// 	if err = client.Close(ctx); err != nil {
+	// 		panic(err)
+	// 	}
+	// }()
 	return nil
 }

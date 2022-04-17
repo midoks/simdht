@@ -1,6 +1,7 @@
 // Code generated for package templates by go-bindata DO NOT EDIT. (@generated)
 // sources:
 // ../../../templates/README.md
+// ../../../templates/index.tmpl
 package templates
 
 import (
@@ -97,6 +98,26 @@ func readmeMd() (*asset, error) {
 	return a, nil
 }
 
+var _indexTmpl = "\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xca\x48\xcd\xc9\xc9\x57\x28\xcf\x2f\xca\x49\x51\x04\x04\x00\x00\xff\xff\x6d\xc2\xb4\x03\x0c\x00\x00\x00"
+
+func indexTmplBytes() ([]byte, error) {
+	return bindataRead(
+		_indexTmpl,
+		"index.tmpl",
+	)
+}
+
+func indexTmpl() (*asset, error) {
+	bytes, err := indexTmplBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "index.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -149,7 +170,8 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"README.md": readmeMd,
+	"README.md":  readmeMd,
+	"index.tmpl": indexTmpl,
 }
 
 // AssetDir returns the file names below a certain
@@ -193,7 +215,8 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"README.md": &bintree{readmeMd, map[string]*bintree{}},
+	"README.md":  &bintree{readmeMd, map[string]*bintree{}},
+	"index.tmpl": &bintree{indexTmpl, map[string]*bintree{}},
 }}
 
 // RestoreAsset restores an asset under the given directory

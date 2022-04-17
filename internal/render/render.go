@@ -1,8 +1,41 @@
 package render
 
 import (
+	"bytes"
+	"fmt"
 	"html/template"
 	"io"
+	"sync"
+)
+
+const (
+	_TMPL_DIR = "templates"
+
+	_CONTENT_TYPE    = "Content-Type"
+	_CONTENT_BINARY  = "application/octet-stream"
+	_CONTENT_JSON    = "application/json"
+	_CONTENT_HTML    = "text/html"
+	_CONTENT_PLAIN   = "text/plain"
+	_CONTENT_XHTML   = "application/xhtml+xml"
+	_CONTENT_XML     = "text/xml"
+	_DEFAULT_CHARSET = "UTF-8"
+)
+
+var (
+	// Provides a temporary buffer to execute templates into and catch errors.
+	bufpool = sync.Pool{
+		New: func() interface{} { return new(bytes.Buffer) },
+	}
+
+	// Included helper functions for use when rendering html
+	helperFuncs = template.FuncMap{
+		"yield": func() (string, error) {
+			return "", fmt.Errorf("yield called with no layout defined")
+		},
+		"current": func() (string, error) {
+			return "", nil
+		},
+	}
 )
 
 type (
@@ -15,7 +48,7 @@ type (
 	}
 	// TemplateFileSystem represents a interface of template file system that able to list all files.
 	TemplateFileSystem interface {
-		// ListFiles() []TemplateFile
+		ListFiles() []TemplateFile
 		Get(string) (io.Reader, error)
 	}
 
@@ -58,10 +91,28 @@ type (
 	}
 )
 
-func HTML(status int, name string) {
+var renderOption Options
 
+func init() {
+	renderOption = Options{
+		IndentJSON:      true,
+		HTMLContentType: _CONTENT_HTML,
+		Directory:       _TMPL_DIR,
+		Extensions:      []string{".tmpl", ".html"},
+	}
 }
 
 func Renderer(op Options) {
 
+}
+
+func HTML(status int, name string) {
+	t1, err := template.ParseFiles(name)
+	if err != nil {
+		// fmt.Println(err)
+	}
+	fmt.Println(t1, err)
+
+	fmt.Println(renderOption)
+	// t1.Execute(w, "hello world")
 }

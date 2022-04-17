@@ -6,8 +6,8 @@ import (
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 
+	"github.com/midoks/simdht/internal/app/context"
 	"github.com/midoks/simdht/internal/app/router/admin"
-	"github.com/midoks/simdht/internal/render"
 )
 
 func Start(port string) {
@@ -17,14 +17,14 @@ func Start(port string) {
 	r.GET("/gc", admin.GcInfo)
 	r.GET("/hello/{name}", Hello)
 
-	if err := fasthttp.ListenAndServe(":"+port, r.Handler); err != nil {
+	if err := fasthttp.ListenAndServe(":"+port, context.Handler(r.Handler)); err != nil {
 		fmt.Errorf("Error in fasthttp.ListenAndServe: %v", err)
 	}
 }
 
 func Hello(ctx *fasthttp.RequestCtx) {
 	fmt.Fprintf(ctx, "Hello, %s!\n", ctx.UserValue("name"))
-	render.HTML(200, "index/index")
+	context.HTML(200, "index")
 }
 
 func Index(ctx *fasthttp.RequestCtx) {
