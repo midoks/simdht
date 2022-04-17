@@ -20,12 +20,9 @@ func HTML(status int, name string) {
 
 func Handler(routerHander fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
-		fmt.Println("cc")
-
 		// c := &Context{
 		// 	Context: ctx,
 		// }
-
 		routerHander(ctx)
 	}
 }
