@@ -68,6 +68,7 @@ func Init(customConf string) error {
 	logs.Init()
 	mgdb.Init()
 
+	fmt.Println(filepath.Join(conf.WorkDir(), "templates"))
 	renderOpt := render.Options{
 		Directory:         filepath.Join(conf.WorkDir(), "templates"),
 		AppendDirectories: []string{filepath.Join(conf.CustomDir(), "templates")},

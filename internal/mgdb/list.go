@@ -19,8 +19,7 @@ type BitTorrent struct {
 }
 
 func AddTorrent(data BitTorrent) (result *qmgo.InsertOneResult, err error) {
-	fmt.Println("ddd")
-	fmt.Println(data)
+	// fmt.Println(data)
 	result, err = collection.InsertOne(ctx, data)
 	if err != nil {
 		fmt.Println("AddTorrent:", err)

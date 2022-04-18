@@ -92,6 +92,7 @@ type (
 )
 
 var renderOption Options
+var tmpl *template.Template
 
 func init() {
 	renderOption = Options{
@@ -102,17 +103,32 @@ func init() {
 	}
 }
 
-func Renderer(op Options) {
+func Renderer(opt Options) {
+	tmpl = template.New(opt.Directory)
+	tmpl.Delims(opt.Delims.Left, opt.Delims.Right)
 
+	if opt.TemplateFileSystem == nil {
+		opt.TemplateFileSystem = NewTemplateFS(opt, false)
+	}
+
+	for _, f := range opt.TemplateFileSystem.ListFiles() {
+		tmpl := tmpl.New(f.Name())
+		// for _, funcs := range opt.Funcs {
+		// tmpl.Funcs(funcs)
+		// }
+		// Bomb out if parse fails. We don't want any silent server starts.
+		template.Must(tmpl.Funcs(helperFuncs).Parse(string(f.Data())))
+	}
 }
 
 func HTML(status int, name string) {
-	t1, err := template.ParseFiles(name)
+	buf := bufpool.Get().(*bytes.Buffer)
+	err := tmpl.ExecuteTemplate(buf, name, renderOption)
 	if err != nil {
 		// fmt.Println(err)
 	}
-	fmt.Println(t1, err)
+	fmt.Println(err)
 
-	fmt.Println(renderOption)
+	// fmt.Println(renderOption)
 	// t1.Execute(w, "hello world")
 }
