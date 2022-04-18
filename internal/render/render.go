@@ -131,13 +131,13 @@ func Renderer(opt Options) {
 	}
 }
 
-func HTML(status int, name string) {
+func HTML(name string) ([]byte, error) {
 	buf := bufpool.Get().(*bytes.Buffer)
 	err := tmpl.ExecuteTemplate(buf, name, renderOption)
-	if err != nil {
-		fmt.Println("HTML: ", err)
-	}
 
-	fmt.Println(buf.String())
-	// t1.Execute(w, "hello world")
+	r := buf.Bytes()
+	buf.Reset()
+	bufpool.Put(buf)
+
+	return r, err
 }

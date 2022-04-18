@@ -14,6 +14,7 @@ import (
 
 	"github.com/valyala/fasthttp"
 
+	"github.com/midoks/simdht/internal/app/context"
 	"github.com/midoks/simdht/internal/app/router/admin"
 	"github.com/midoks/simdht/internal/app/template"
 	"github.com/midoks/simdht/internal/render"
@@ -134,6 +135,7 @@ func BenchmarkServerGetHello(b *testing.B) {
 	initTmplConf()
 
 	benchmarkServerGetCallback(b, defaultClientsCount, 1, func(ctx *fasthttp.RequestCtx) {
+		context.SetCtx(ctx)
 		Hello(ctx)
 	})
 }

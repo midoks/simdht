@@ -21,7 +21,6 @@ type fileSystem struct {
 }
 
 func (fs *fileSystem) Files() []File {
-	fmt.Println("fs", fs.files)
 	return fs.files
 }
 
@@ -77,9 +76,6 @@ func NewFS(opt Options, omitData bool) FileSystem {
 		}
 
 		ext := GetExt(r)
-		fmt.Println("R.d", dirs)
-		fmt.Println("R", r, lastDir, path, ext)
-
 		for _, extension := range opt.Extensions {
 			if ext != extension {
 				continue
