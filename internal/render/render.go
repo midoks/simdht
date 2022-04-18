@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"io"
 	"sync"
 )
 
@@ -40,18 +39,6 @@ var (
 
 type (
 
-	// TemplateFile represents a interface of template file that has name and can be read.
-	TemplateFile interface {
-		Name() string
-		Data() []byte
-		Ext() string
-	}
-	// TemplateFileSystem represents a interface of template file system that able to list all files.
-	TemplateFileSystem interface {
-		ListFiles() []TemplateFile
-		Get(string) (io.Reader, error)
-	}
-
 	// Delims represents a set of Left and Right delimiters for HTML template rendering
 	Delims struct {
 		// Left delimiter, defaults to {{
@@ -86,8 +73,8 @@ type (
 		PrefixXML []byte
 		// Allows changing of output to XHTML instead of HTML. Default is "text/html"
 		HTMLContentType string
-		// TemplateFileSystem is the interface for supporting any implmentation of template file system.
-		TemplateFileSystem
+		// FileSystem is the interface for supporting any implmentation of template file system.
+		FileSystem
 	}
 )
 
@@ -103,19 +90,42 @@ func init() {
 	}
 }
 
+func prepareRenderOptions(options []Options) Options {
+	var opt Options
+	if len(options) > 0 {
+		opt = options[0]
+	}
+
+	// Defaults.
+	if len(opt.Directory) == 0 {
+		opt.Directory = _TMPL_DIR
+	}
+	if len(opt.Extensions) == 0 {
+		opt.Extensions = []string{".tmpl", ".html"}
+	}
+	if len(opt.HTMLContentType) == 0 {
+		opt.HTMLContentType = _CONTENT_HTML
+	}
+
+	return opt
+}
+
 func Renderer(opt Options) {
+	opt = prepareRenderOptions([]Options{opt})
 	tmpl = template.New(opt.Directory)
 	tmpl.Delims(opt.Delims.Left, opt.Delims.Right)
 
-	if opt.TemplateFileSystem == nil {
-		opt.TemplateFileSystem = NewTemplateFS(opt, false)
+	if opt.FileSystem == nil {
+		opt.FileSystem = NewFS(opt, false)
 	}
 
-	for _, f := range opt.TemplateFileSystem.ListFiles() {
-		tmpl := tmpl.New(f.Name())
-		// for _, funcs := range opt.Funcs {
-		// tmpl.Funcs(funcs)
-		// }
+	for _, f := range opt.FileSystem.Files() {
+		tmpl = tmpl.New(f.Name())
+
+		for _, funcs := range opt.Funcs {
+			tmpl.Funcs(funcs)
+		}
+
 		// Bomb out if parse fails. We don't want any silent server starts.
 		template.Must(tmpl.Funcs(helperFuncs).Parse(string(f.Data())))
 	}
@@ -125,10 +135,9 @@ func HTML(status int, name string) {
 	buf := bufpool.Get().(*bytes.Buffer)
 	err := tmpl.ExecuteTemplate(buf, name, renderOption)
 	if err != nil {
-		// fmt.Println(err)
+		fmt.Println("HTML: ", err)
 	}
-	fmt.Println(err)
 
-	// fmt.Println(renderOption)
+	fmt.Println(buf.String())
 	// t1.Execute(w, "hello world")
 }

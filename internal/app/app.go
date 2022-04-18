@@ -23,7 +23,6 @@ func Start(port string) {
 }
 
 func Hello(ctx *fasthttp.RequestCtx) {
-	fmt.Fprintf(ctx, "Hello, %s!\n", ctx.UserValue("name"))
 	context.HTML(200, "index")
 }
 

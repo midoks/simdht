@@ -1,12 +1,11 @@
 package app
 
 import (
-	// "bytes"
 	"fmt"
 	"io"
-	// "io/ioutil"
 	"net"
-	// "net/http"
+	"os"
+	"path/filepath"
 	"runtime"
 	"sync"
 	"sync/atomic"
@@ -16,6 +15,8 @@ import (
 	"github.com/valyala/fasthttp"
 
 	"github.com/midoks/simdht/internal/app/router/admin"
+	"github.com/midoks/simdht/internal/app/template"
+	"github.com/midoks/simdht/internal/render"
 )
 
 var defaultClientsCount = runtime.NumCPU()
@@ -94,6 +95,25 @@ func (c *fakeServerConn) SetWriteDeadline(t time.Time) error {
 	return nil
 }
 
+func initTmplConf() {
+	path, _ := os.Getwd()
+	_path := filepath.Dir(path)
+	_path = filepath.Dir(_path)
+
+	renderOpt := render.Options{
+		Directory:         filepath.Join(_path, "templates"),
+		AppendDirectories: []string{filepath.Join(_path+"/custom", "templates")},
+		Funcs:             template.FuncMap(),
+		IndentJSON:        true,
+		Delims: render.Delims{
+			Left:  "{{",
+			Right: "}}",
+		},
+	}
+
+	render.Renderer(renderOpt)
+}
+
 // go test -bench=. -benchmem -benchtime=1s
 
 // go test -bench=BenchmarkServerGet -benchmem -benchtime=1s
@@ -110,6 +130,9 @@ func BenchmarkServerGetIndex(b *testing.B) {
 }
 
 func BenchmarkServerGetHello(b *testing.B) {
+
+	initTmplConf()
+
 	benchmarkServerGetCallback(b, defaultClientsCount, 1, func(ctx *fasthttp.RequestCtx) {
 		Hello(ctx)
 	})

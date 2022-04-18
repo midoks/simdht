@@ -4,45 +4,30 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
+	// "io/ioutil"
 	"os"
 	"path/filepath"
 )
 
-// TplFile implements TemplateFile interface.
-type TplFile struct {
-	name string
-	data []byte
-	ext  string
+// FileSystem represents a interface of template file system that able to list all files.
+type FileSystem interface {
+	Files() []File
+	Get(string) (io.Reader, error)
 }
 
-func (f *TplFile) Name() string {
-	return f.name
+// TplFS implements TemplateFileSystem interface.
+type fileSystem struct {
+	files []File
 }
 
-func (f *TplFile) Data() []byte {
-	return f.data
-}
-
-func (f *TplFile) Ext() string {
-	return f.ext
-}
-
-// NewTplFile cerates new template file with given name and data.
-func NewTplFile(name string, data []byte, ext string) *TplFile {
-	return &TplFile{name, data, ext}
-}
-
-// TplFileSystem implements TemplateFileSystem interface.
-type TplFS struct {
-	files []TemplateFile
-}
-
-func (fs TplFS) ListFiles() []TemplateFile {
+func (fs *fileSystem) Files() []File {
+	fmt.Println("fs", fs.files)
 	return fs.files
 }
 
-func (fs TplFS) Get(name string) (io.Reader, error) {
+func (fs *fileSystem) Get(name string) (io.Reader, error) {
+
+	fmt.Println("fileSystem:", name)
 	for i := range fs.files {
 		if fs.files[i].Name()+fs.files[i].Ext() == name {
 			return bytes.NewReader(fs.files[i].Data()), nil
@@ -52,10 +37,9 @@ func (fs TplFS) Get(name string) (io.Reader, error) {
 }
 
 // NewTemplateFileSystem creates new template file system with given options.
-func NewTemplateFS(opt Options, omitData bool) TplFS {
+func NewFS(opt Options, omitData bool) FileSystem {
 	var err error
-	fs := TplFS{}
-	fs.files = make([]TemplateFile, 0, 10)
+	fs := fileSystem{}
 
 	// // Directories are composed in reverse order because later one overwrites previous ones,
 	// // so once found, we can directly jump out of the loop.
@@ -82,16 +66,19 @@ func NewTemplateFS(opt Options, omitData bool) TplFS {
 	lastDir := dirs[len(dirs)-1]
 
 	// We still walk the last (original) directory because it's non-sense we load templates not exist in original directory.
-	if err := filepath.Walk(lastDir, func(path string, info os.FileInfo, _ error) error {
+	if err := filepath.Walk(lastDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 
 		r, err := filepath.Rel(lastDir, path)
 		if err != nil {
 			return err
 		}
 
-		fmt.Println("R", r, lastDir, path)
-
 		ext := GetExt(r)
+		fmt.Println("R.d", dirs)
+		fmt.Println("R", r, lastDir, path, ext)
 
 		for _, extension := range opt.Extensions {
 			if ext != extension {
@@ -103,26 +90,24 @@ func NewTemplateFS(opt Options, omitData bool) TplFS {
 				// Loop over candidates of directory, break out once found.
 				// The file always exists because it's inside the walk function,
 				// and read original file is the worst case.
-				// for i := range dirs {
-				// path = filepath.Join(dirs[i], r)
+				for i := range dirs {
+					path = filepath.Join(dirs[i], r)
 
-				fmt.Println("path", path)
-				if !IsFile(path) {
-					continue
-				}
+					if !IsFile(path) {
+						continue
+					}
 
-				data, err = ioutil.ReadFile(path)
-				if err != nil {
-					return err
+					data, err = os.ReadFile(path)
+					if err != nil {
+						return err
+					}
+
+					break
 				}
-				// break
-				// }
 			}
 
 			name := filepath.ToSlash((r[0 : len(r)-len(ext)]))
-
-			fmt.Println("ddd:", name, data, ext)
-			fs.files = append(fs.files, NewTplFile(name, data, ext))
+			fs.files = append(fs.files, NewFile(name, data, ext))
 		}
 
 		return nil
@@ -130,5 +115,5 @@ func NewTemplateFS(opt Options, omitData bool) TplFS {
 		panic("NewTemplateFileSystem: " + err.Error())
 	}
 
-	return fs
+	return &fs
 }
