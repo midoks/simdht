@@ -1,0 +1,18 @@
+{
+    "title": "種子検索",
+    "search": "検索",
+    "index": "トップページ",
+    "recommend_title":"おすすめ",
+    "meta_keyword":"磁気リンク、磁力検索、種子検索、磁力リンク検索、磁力リンク検索エンジン、種子検索神器、SiDT",
+    "meta_desc":"SiDT磁力チェーンは、最も高い磁力リンク検索エンジンを更新し、当社はリアルタイムでHTネットワークを通じて最新のBT種ファイル情報を取得する。",
+    "web_instro": "簡単な磁力リンク検索エンジン",
+    "bar_dht_protocol": "PTプロトコル",
+    "search_hint":"{1}個の <b class='blue'>{2}</b> の磁力のリンク資源を検索して、消費時に {3} msです",
+    "search_not_find":"<p>申し訳ありませんが、「\"<b>{1}</b>\" 」についての結果は見つかりませんでした。</p><p>まずこのページの再試験を<a href=''><span>更新</span></a>してみてもいいですが、そのリソースにはインデックスがありませんので、他のキーワードを試してみてください。</p><p>これは<a href='/'>トップページに戻る</a>再検索は、なるべく短い言葉で検索してください。</p>",
+    "search_creation_date":"日付を作成",
+    "search_file_size":"ファイルサイズ",
+    "search_file_number":"ファイルの数",
+    "search_file_link":"磁力リンク",
+    "search_file_list":"ファイルリスト",
+    "search_file_category": "カテゴリ"
+}

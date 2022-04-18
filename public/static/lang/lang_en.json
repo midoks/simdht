@@ -1,0 +1,18 @@
+{
+    "title": "SODHT",
+    "search": "Search",
+    "index": "INDEX",
+    "recommend_title":"Recommend",
+    "meta_keyword":"Magnetic Link, Magnetic Search, Seed Search, Magnetic Link Search, Magnetic Link Search Engine, Seed Search Artifact, SODHT",
+    "meta_desc":"SODHT magnetic chain is the best and fastest updated search engine for magnetic links. This site can get the latest BT seed file information through DHT network in real time.",
+    "web_instro": "A Simple Magnetic Link Search Engine",
+    "bar_dht_protocol": "DHT",
+    "search_hint":"Search to {1} <b class='blue'>{2}</b> magnetically linked resources, time {3} ms",
+    "search_not_find":"<p>Sorry, no result about  \"<b>{1}</b>\"  was found.</p><p>You can try it first.&nbsp;<a href=\"\"><span>refresh</span></a>&nbsp;retry this page, or you may not have indexed the resource yet. please try other keywords.</p><p>Click here <a href='/'>back to home page</a> search again, please use short words to search as much as possible.</p>",
+    "search_creation_date":"creation date",
+    "search_file_size":"file size",
+    "search_file_number":"number of documents",
+    "search_file_link":"magnet url",
+    "search_file_list":"file list",
+    "search_file_category": "category"
+}

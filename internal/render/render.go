@@ -122,7 +122,7 @@ func Renderer(opt Options) {
 	}
 }
 
-func HTML(name string, data ...interface{}) ([]byte, error) {
+func HTML(name string, data interface{}) ([]byte, error) {
 	var err error
 	buf := bufpool.Get().(*bytes.Buffer)
 	err = tmpl.ExecuteTemplate(buf, name, data)

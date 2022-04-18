@@ -23,9 +23,13 @@ func Start(port string) {
 }
 
 func Hello(ctx *fasthttp.RequestCtx) {
-	context.HTML(200, "index")
+	// var m map[string]interface{}
+	// m = make(map[string]interface{})
+	// m["name"] = "midoks"
 
-	// admin.GcInfo(ctx)
+	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
+	context.HTML(ctx, 200, "index", data)
+
 }
 
 func Index(ctx *fasthttp.RequestCtx) {

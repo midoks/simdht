@@ -16,6 +16,9 @@ func FuncMap() []template.FuncMap {
 	funcMapOnce.Do(func() {
 		funcMap = []template.FuncMap{map[string]interface{}{
 			"Safe": Safe,
+			"Version": func() string {
+				return "dd"
+			},
 		}}
 	})
 	return funcMap

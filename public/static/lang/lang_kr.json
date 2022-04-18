@@ -1,0 +1,18 @@
+{
+    "title": "종자 검색",
+    "search": "수색",
+    "index": "페이지",
+    "recommend_title":"추천",
+    "meta_keyword":"자력 링크, 자력 검색, 피드 검색, 마그네틱 검색, 자기력 링크 검색 엔진, 피드 검색 신기, SDHT",
+    "meta_desc":"SDHT 자력 (SDHT) 사슬은 자원이 가장 빠른, 가장 빠른 리드링크 검색 엔진을 업데이트하는 데, 이 역은 실시간 DHT 네트워크를 통해 최신 BT 피드 파일 정보를 얻을 수 있습니다.",
+    "web_instro": "DHT 자력 체인 - 간단한 링크 검색 엔진",
+    "bar_dht_protocol": "DHT 프로토콜",
+    "search_hint":"검색하다 {1} 개 <b class='blue'>{2}</b> 자력 링크 자원, 소모 {3}ms ",
+    "search_not_find":"<p>抱찾지 못하다 \"<b>{1}</b>\" 의 결과</p><p>우선 시도를 시도할 수 있습니다&nbsp;<a href=''><span>새로 고침</span></a>&nbsp;본 페이지를 다시 시도하거나, 아직 이 자원에 인덱스 되지 않을 수 있으니, 다른 키워드를 해 보세요.</p><p>요점을 찍다<a href='/'>홈 페이지로 돌아가다</a>다시 검색하면 짧게 검색하시면 됩니다.</p>",
+    "search_creation_date":"생성 날짜",
+    "search_file_size":"파일 크기",
+    "search_file_number":"파일 개수",
+    "search_file_link":"마그네틱 링크",
+    "search_file_list":"파일 목록",
+    "search_file_category": "분류 하 다"
+}

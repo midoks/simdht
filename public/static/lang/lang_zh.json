@@ -1,0 +1,18 @@
+{
+    "title": "种子搜索",
+    "search": "搜索",
+    "index": "首页",
+    "recommend_title":"推荐",
+    "meta_keyword":"磁力链接,磁力搜索,种子搜索,磁力链接搜索,磁力链接搜索引擎,种子搜索神器,SODHT",
+    "meta_desc":"SODHT磁力链是资源最好,更新最快的磁力链接搜索引擎,本站实时通过DHT网络获取最新的BT种子文件信息",
+    "web_instro": "DHT磁力链 - 简单的磁力链接搜索引擎",
+    "bar_dht_protocol": "DHT协议",
+    "search_hint":"搜索到{1}个 <b class='blue'>{2}</b> 磁力链接资源,耗时{3}ms",
+    "search_not_find":"<p>抱歉，没有找到关于 \"<b>{1}</b>\" 的结果</p><p>您可以首先尝试&nbsp;<a href=''><span>刷新</span></a>&nbsp;本页重试,或者可能还没有索引到该资源，请试试其它关键词。</p><p>点此<a href='/'>返回首页</a>重新搜索，请尽量使用简短词搜索。</p>",
+    "search_creation_date":"创建日期",
+    "search_file_size":"文件大小",
+    "search_file_number":"文件数量",
+    "search_file_link":"磁力链接",
+    "search_file_list":"文件列表",
+    "search_file_category": "分类"
+}
