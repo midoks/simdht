@@ -20,13 +20,13 @@ action:
   - go generate internal/assets/conf/conf.go
   - go generate internal/assets/public/public.go
   - go generate internal/assets/templates/templates.go
-  - go mod tidy
-  - go mod vendor
+  # - go mod tidy
+  # - go mod vendor
   after:
   - ps -ef|grep 'simdht service'| grep -v grep | awk '{print $2}' | xargs kill -9
-  - ./simdht service &
+  # - ./simdht service &
+  - GODEBUG=gctrace=1 ./simdht service | grep gc
   exit:
   - ps -ef|grep 'simdht service'| grep -v grep
-  - rm -rf ./simdht
   - ps -ef|grep 'simdht service'| grep -v grep | awk '{print $2}' | xargs kill -9
 link: https://github.com/midoks/zzz

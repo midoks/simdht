@@ -24,6 +24,8 @@ func Start(port string) {
 
 func Hello(ctx *fasthttp.RequestCtx) {
 	context.HTML(200, "index")
+
+	// admin.GcInfo(ctx)
 }
 
 func Index(ctx *fasthttp.RequestCtx) {

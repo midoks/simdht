@@ -73,10 +73,6 @@ func Init(customConf string) error {
 		AppendDirectories: []string{filepath.Join(conf.CustomDir(), "templates")},
 		Funcs:             template.FuncMap(),
 		IndentJSON:        true,
-		Delims: render.Delims{
-			Left:  "{{",
-			Right: "}}",
-		},
 	}
 
 	// if !conf.Server.LoadAssetsFromDisk {

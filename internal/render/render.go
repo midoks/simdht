@@ -78,17 +78,7 @@ type (
 	}
 )
 
-var renderOption Options
 var tmpl *template.Template
-
-func init() {
-	renderOption = Options{
-		IndentJSON:      true,
-		HTMLContentType: _CONTENT_HTML,
-		Directory:       _TMPL_DIR,
-		Extensions:      []string{".tmpl", ".html"},
-	}
-}
 
 func prepareRenderOptions(options []Options) Options {
 	var opt Options
@@ -112,6 +102,7 @@ func prepareRenderOptions(options []Options) Options {
 
 func Renderer(opt Options) {
 	opt = prepareRenderOptions([]Options{opt})
+
 	tmpl = template.New(opt.Directory)
 	tmpl.Delims(opt.Delims.Left, opt.Delims.Right)
 
@@ -131,9 +122,10 @@ func Renderer(opt Options) {
 	}
 }
 
-func HTML(name string) ([]byte, error) {
+func HTML(name string, data ...interface{}) ([]byte, error) {
+	var err error
 	buf := bufpool.Get().(*bytes.Buffer)
-	err := tmpl.ExecuteTemplate(buf, name, renderOption)
+	err = tmpl.ExecuteTemplate(buf, name, data)
 
 	r := buf.Bytes()
 	buf.Reset()

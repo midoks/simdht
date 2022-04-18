@@ -25,8 +25,6 @@ func (fs *fileSystem) Files() []File {
 }
 
 func (fs *fileSystem) Get(name string) (io.Reader, error) {
-
-	fmt.Println("fileSystem:", name)
 	for i := range fs.files {
 		if fs.files[i].Name()+fs.files[i].Ext() == name {
 			return bytes.NewReader(fs.files[i].Data()), nil
@@ -108,7 +106,7 @@ func NewFS(opt Options, omitData bool) FileSystem {
 
 		return nil
 	}); err != nil {
-		panic("NewTemplateFileSystem: " + err.Error())
+		panic("NewFS: " + err.Error())
 	}
 
 	return &fs

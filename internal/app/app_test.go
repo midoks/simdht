@@ -130,6 +130,8 @@ func BenchmarkServerGetIndex(b *testing.B) {
 	})
 }
 
+// go test -bench=BenchmarkServerGetHello -benchmem -benchtime=1s -cpuprofile cpu.out
+// go test -bench=BenchmarkServerGetHello -benchmem -benchtime=1s -memprofile mem.out
 func BenchmarkServerGetHello(b *testing.B) {
 
 	initTmplConf()
