@@ -15,7 +15,8 @@ func Start(port string) {
 
 	r := router.New()
 	r.GET("/", Index)
-	r.GET("/s/{key}", Soso)
+	r.GET("/s/{Kw}", Soso)
+	r.GET("/info/{ID}", Info)
 	r.GET("/gc", admin.GcInfo)
 	r.GET("/debug", Debug)
 
@@ -33,7 +34,12 @@ func Index(ctx *fasthttp.RequestCtx) {
 
 func Soso(ctx *fasthttp.RequestCtx) {
 	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
-	context.HTML(ctx, 200, "index", data)
+	context.HTML(ctx, 200, "search/index", data)
+}
+
+func Info(ctx *fasthttp.RequestCtx) {
+	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
+	context.HTML(ctx, 200, "search/index", data)
 }
 
 func Hello(ctx *fasthttp.RequestCtx) {

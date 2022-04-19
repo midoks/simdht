@@ -1,0 +1,90 @@
+{{template "base/head" .}}
+
+<div style="background-color: #f8f8f8;">
+    <div class="container">
+        <div class="row search_hint" style="padding-left: 15px;">
+            <a style="padding-left: 0px;cursor:pointer;" tpl="/s/_.html"
+                onclick="dataSortBy(this,'c', '')" 
+                class="">
+               
+            </a>
+            <a style="padding-left: 0px;cursor:pointer;" tpl="/s/_.html" 
+                onclick="dataSortBy(this,'f', '')"
+                class="">
+
+            </a>
+
+            <!-- Split button -->
+            <div class="btn-group btn-group-xs" style="padding-bottom: 3px;">
+              <button id='find_category' type="button" class="btn btn-default">all</button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a onclick="selectCategory('all');">all</a></li>
+                <li><a onclick="selectCategory('video');">video</a></li>
+                <li><a onclick="selectCategory('music');">music</a></li>
+                <li><a onclick="selectCategory('document');">document</a></li>
+                <li><a onclick="selectCategory('package');">package</a></li>
+                <li><a onclick="selectCategory('other');">other</a></li>
+              </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-sm-12">
+            <span class="rststat">
+       
+              
+            </span>
+            
+
+
+                <ul class="mlist">
+               
+                <li>
+                    <h3 class="T1">
+                        <a target="_blank" href="/info/1.html"></a>
+                    </h3>
+                    <dl class="BotInfo">
+                        <div class="item-list"></div>
+                        <dt>
+                           
+                        </dt>
+                    </dl> 
+                </li>
+                </ul>
+    
+
+        </div>
+
+       
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    var find_category = PVCC.getCookie('find_category');
+    var get_category = getQueryString('category');
+    if (find_category){
+        if(!get_category){
+            if(get_category != 'all'){
+                var v = location.href.split('?');
+                location.href = v[0]+'?category='+find_category;
+            }
+        }
+    }
+    $('#find_category').text(get_category);
+});
+</script>
+
+<div class="container" style="padding-bottom: 20px;">
+    
+</div>
+
+
+{{template "base/footer" .}}
