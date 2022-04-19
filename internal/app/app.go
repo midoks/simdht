@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	// "net/http"
 
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
@@ -14,25 +15,33 @@ func Start(port string) {
 
 	r := router.New()
 	r.GET("/", Index)
+	r.GET("/s/{key}", Soso)
 	r.GET("/gc", admin.GcInfo)
-	r.GET("/hello/{name}", Hello)
+	r.GET("/debug", Debug)
+
+	r.NotFound = fasthttp.FSHandler("./public", 0)
 
 	if err := fasthttp.ListenAndServe(":"+port, context.Handler(r.Handler)); err != nil {
 		fmt.Errorf("Error in fasthttp.ListenAndServe: %v", err)
 	}
 }
 
-func Hello(ctx *fasthttp.RequestCtx) {
-	// var m map[string]interface{}
-	// m = make(map[string]interface{})
-	// m["name"] = "midoks"
-
+func Index(ctx *fasthttp.RequestCtx) {
 	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
 	context.HTML(ctx, 200, "index", data)
-
 }
 
-func Index(ctx *fasthttp.RequestCtx) {
+func Soso(ctx *fasthttp.RequestCtx) {
+	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
+	context.HTML(ctx, 200, "index", data)
+}
+
+func Hello(ctx *fasthttp.RequestCtx) {
+	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
+	context.HTML(ctx, 200, "index", data)
+}
+
+func Debug(ctx *fasthttp.RequestCtx) {
 
 	newCtx := &fasthttp.Request{}
 	ctx.Request.CopyTo(newCtx)

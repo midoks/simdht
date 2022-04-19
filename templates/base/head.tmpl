@@ -10,10 +10,8 @@
 <meta name="viewport" content="width=device-width,user-scalable=yes,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta name="baidu-site-verification" content="5w2bki4z0r" />
 <meta name="google-site-verification" content="AGj4u0sEG5S5IZfwWIHaE98yfG381ey1fFD2OBeymPY" />
-{% block metas %}
-<!-- metas -->
-{% endblock %}
-<title>{%block title%}<!-- title -->{%endblock%}</title>
+
+<title>simdht</title>
 <link href="/static/css/bootstrap.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/bootstrap-theme.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/main.css?v={{Version}}" rel="stylesheet">
@@ -33,22 +31,9 @@ if(hlist[0]=='v1' || hlist[0]=='v2' || hlist[0]=='v3'){
 }
 
 </script>
-
-
-
-{% block styles %}
-<!-- styles -->
-{% endblock %}
-
-
 </head>
 <body>
 
-
-{% block navbar %}
-{% endblock %}
-{% block content %}
-{% endblock %}
 
 
 <script src="/static/js/bootstrap.min.js?v={{Version}}"></script>
@@ -92,6 +77,3 @@ function getQueryString(name){
 
 
 </script>
-
-</body>
-</html>
