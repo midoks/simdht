@@ -9,10 +9,10 @@ dirfilter:
 - vendor
 - costom
 - logs
-- templates
 - .gitignore
 ext:
 - go
+- tmpl
 enablerun: true
 action:
   before:

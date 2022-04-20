@@ -1,5 +1,40 @@
 {{template "base/head" .}}
 
+<form class="x-sform" method="GET">
+<nav class="navbar navbar-default " role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">SODHT</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="/"></a></li>
+            </ul>
+
+            <div class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" autocomplete="off" class="form-control x-kw" name="kw" placeHolder="" value="">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</nav>
+</form>
+
+
+<div class="container" style="padding-bottom: 20px;">
 <div style="background-color: #f8f8f8;">
     <div class="container">
         <div class="row search_hint" style="padding-left: 15px;">
@@ -33,35 +68,24 @@
         </div>
     </div>
 </div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-sm-12">
-            <span class="rststat">
-       
-              
+            <span class="rststat">              
             </span>
-            
-
-
-                <ul class="mlist">
-               
-                <li>
-                    <h3 class="T1">
-                        <a target="_blank" href="/info/1.html"></a>
-                    </h3>
-                    <dl class="BotInfo">
-                        <div class="item-list"></div>
-                        <dt>
-                           
-                        </dt>
-                    </dl> 
-                </li>
-                </ul>
-    
-
+            <ul class="mlist">
+            <li>
+                <h3 class="T1">
+                    <a target="_blank" href="/info/1.html"></a>
+                </h3>
+                <dl class="BotInfo">
+                    <div class="item-list"></div>
+                    <dt></dt>
+                </dl> 
+            </li>
+            </ul>
         </div>
-
-       
     </div>
 </div>
 
@@ -83,8 +107,35 @@ $(document).ready(function(){
 </script>
 
 <div class="container" style="padding-bottom: 20px;">
-    
 </div>
 
+</div>
 
+<nav class="navbar-default nav-foot navbar-fixed-bottom">
+    <div class="container">
+        <div class="footer" style="text-align: center;">
+            <span>
+                <span>
+                    <div class="btn-group dropup">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span></span><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                       
+                        </ul>
+                    </div>  
+                </span> |
+                <!-- <a href="/" target="_blank"></a> | -->
+                <a href="http://www.bittorrent.org/beps/bep_0005.html" target="_blank"></a> |
+                <a class="hidden-xs" href="/cdn-cgi/trace" target="_blank">TRACE</a>
+                <span class="hidden-xs">|</span>
+                <a href="http://m3u8.cachecha.com" target="_blank">M3U8</a> 
+                <span>|</span>
+                <!-- class="hidden-xs" -->
+                <a  href="https://m.biqu.xyz" target="_blank">BIQU</a> 
+                
+            </span>
+        </div>
+    </div>
+</nav>
 {{template "base/footer" .}}

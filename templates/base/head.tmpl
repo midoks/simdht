@@ -15,16 +15,9 @@
 <link href="/static/css/bootstrap.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/bootstrap-theme.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/main.css?v={{Version}}" rel="stylesheet">
-
 <script src="/static/js/jquery-1.11.0.min.js?v={{Version}}"></script>
-<script type="text/javascript">
-
-
-</script>
 </head>
 <body>
-
-
 
 <script src="/static/js/bootstrap.min.js?v={{Version}}"></script>
 <script src="/static/js/bootstrap-typeahead.min.js?v={{Version}}"></script>
@@ -39,6 +32,8 @@ $('.x-sform').submit(function(e){
         window.alert('At least 2 words!!!');
         return false;
     }
+
+    console.log(kw);
 
     if(!kw){
         $('.x-kw').focus();

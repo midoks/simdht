@@ -1,6 +1,7 @@
 package mgdb
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/qiniu/qmgo"
@@ -19,12 +20,15 @@ type BitTorrent struct {
 }
 
 func AddTorrent(data BitTorrent) (result *qmgo.InsertOneResult, err error) {
-	// fmt.Println(data)
-	result, err = collection.InsertOne(ctx, data)
-	if err != nil {
-		fmt.Println("AddTorrent:", err)
+	if collection != nil {
+		result, err = collection.InsertOne(ctx, data)
+		if err != nil {
+			return nil, err
+		}
+		return result, err
 	}
-	return result, err
+
+	return nil, errors.New("mongo disconnected!")
 }
 
 func DeleteTorrent() {

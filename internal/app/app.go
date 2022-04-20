@@ -15,8 +15,8 @@ func Start(port string) {
 
 	r := router.New()
 	r.GET("/", Index)
-	r.GET("/s/{Kw}", Soso)
-	r.GET("/info/{ID}", Info)
+	r.GET("/s/{KW}", Soso)
+	r.GET("/info/{HASH_ID}", Info)
 	r.GET("/gc", admin.GcInfo)
 	r.GET("/debug", Debug)
 
@@ -28,31 +28,35 @@ func Start(port string) {
 }
 
 func Index(ctx *fasthttp.RequestCtx) {
-	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
-	context.HTML(ctx, 200, "index", data)
+	_this := context.Base(ctx)
+	_this.HTML(200, "index")
 }
 
 func Soso(ctx *fasthttp.RequestCtx) {
-	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
-	context.HTML(ctx, 200, "search/index", data)
+	_this := context.Base(ctx)
+
+	keyword := ctx.UserValue("KW")
+	fmt.Println("soso:", keyword)
+
+	_this.Data["Name"] = "ww"
+
+	_this.HTML(200, "search/index")
 }
 
 func Info(ctx *fasthttp.RequestCtx) {
-	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
-	context.HTML(ctx, 200, "search/index", data)
+	_this := context.Base(ctx)
+	_this.HTML(200, "search/info")
 }
 
 func Hello(ctx *fasthttp.RequestCtx) {
-	data := map[string]interface{}{"Name": "world", "Age": 18, "D": "ddd"}
-	context.HTML(ctx, 200, "index", data)
+	_this := context.Base(ctx)
+	_this.HTML(200, "info")
 }
 
 func Debug(ctx *fasthttp.RequestCtx) {
 
 	newCtx := &fasthttp.Request{}
 	ctx.Request.CopyTo(newCtx)
-
-	// fmt.Println(newCtx)
 
 	fmt.Fprintf(ctx, "Hello, world!\n\n")
 	fmt.Fprintf(ctx, "Request method is %s\n", ctx.Method())
