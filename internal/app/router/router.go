@@ -11,8 +11,9 @@ import (
 	"gopkg.in/ini.v1"
 
 	"github.com/midoks/simdht/internal/app/template"
+	"github.com/midoks/simdht/internal/assets/templates"
 	"github.com/midoks/simdht/internal/conf"
-	// "github.com/midoks/simdht/internal/dht"
+	"github.com/midoks/simdht/internal/dht"
 	"github.com/midoks/simdht/internal/logs"
 	"github.com/midoks/simdht/internal/mgdb"
 	"github.com/midoks/simdht/internal/render"
@@ -75,14 +76,14 @@ func Init(customConf string) error {
 		IndentJSON:        true,
 	}
 
-	// if !conf.Server.LoadAssetsFromDisk {
-	// 	renderOpt.TemplateFileSystem = templates.NewTemplateFileSystem("", renderOpt.AppendDirectories[0])
-	// }
+	if !conf.Web.LoadAssetsFromDisk {
+		renderOpt.FileSystem = templates.NewTemplateFileSystem("", renderOpt.AppendDirectories[0])
+	}
 
 	render.Renderer(renderOpt)
 
 	//stat DHT
-	// go dht.Run()
+	go dht.Run()
 
 	// go tool pprof --seconds 30 http://localhost:6060/debug/pprof/profile
 	// go tool pprof -http=:11011 --seconds 30 http://localhost:6060/debug/pprof/profile

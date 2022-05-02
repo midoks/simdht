@@ -18,13 +18,13 @@ func Init() error {
 
 	ctx = context.Background()
 	client, err = qmgo.NewClient(ctx, &qmgo.Config{Uri: "mongodb://127.0.0.1:27017"})
+
+	if err != nil {
+		return err
+	}
+
 	db = client.Database("simdht")
 	collection = db.Collection("list")
 
-	// defer func() {
-	// 	if err = client.Close(ctx); err != nil {
-	// 		panic(err)
-	// 	}
-	// }()
 	return nil
 }

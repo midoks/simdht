@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 )
 
+type CALLBACK func() []File
+
 // FileSystem represents a interface of template file system that able to list all files.
 type FileSystem interface {
 	Files() []File
@@ -31,6 +33,14 @@ func (fs *fileSystem) Get(name string) (io.Reader, error) {
 		}
 	}
 	return nil, fmt.Errorf("file '%s' not found", name)
+}
+
+func NewCbFS(cb CALLBACK, omitData bool) FileSystem {
+
+	fs := fileSystem{}
+	fs.files = cb()
+
+	return &fs
 }
 
 // NewTemplateFileSystem creates new template file system with given options.
