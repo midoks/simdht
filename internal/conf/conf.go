@@ -94,6 +94,14 @@ func Init(customConf string) error {
 		return errors.Wrap(err, "mapping [session] section")
 	}
 
+	// ****************************
+	// ----- mongodb settings -----
+	// ****************************
+
+	if err = File.Section("mongodb").MapTo(&Mongodb); err != nil {
+		return errors.Wrap(err, "mapping [mongodb] section")
+	}
+
 	// ***************************
 	// ----- i18n settings -----
 	// ***************************

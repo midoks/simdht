@@ -1,9 +1,10 @@
 package mgdb
 
 import (
-	"errors"
-	"fmt"
+	// "fmt"
+	"time"
 
+	"github.com/pkg/errors"
 	"github.com/qiniu/qmgo"
 )
 
@@ -13,28 +14,59 @@ type File struct {
 }
 
 type BitTorrent struct {
-	InfoHash string `bson:"infohash"`
-	Name     string `bson:"name"`
-	Files    []File `bson:"files,omitempty"`
-	Length   int    `bson:"length,omitempty"`
+	InfoHash   string    `bson:"infohash"`
+	Name       string    `bson:"name"`
+	Files      []File    `bson:"files,omitempty"`
+	Length     int       `bson:"length,omitempty"`
+	Updatetime time.Time `bson:"updatetime" json:"updatetime"`
+	Createtime time.Time `bson:"createtime" json:"createtime"`
 }
 
-func AddTorrent(data BitTorrent) (result *qmgo.InsertOneResult, err error) {
-	if collection != nil {
-		result, err = collection.InsertOne(ctx, data)
-		if err != nil {
-			return nil, err
-		}
-		return result, err
+type BitTorrentBid struct {
+	MgID       string    `bson:"_id"`
+	InfoHash   string    `bson:"infohash"`
+	Name       string    `bson:"name"`
+	Files      []File    `bson:"files,omitempty"`
+	Length     int       `bson:"length,omitempty"`
+	Updatetime time.Time `bson:"updatetime" json:"updatetime"`
+	Createtime time.Time `bson:"createtime" json:"createtime"`
+}
+
+func TorrentAdd(data BitTorrent) (result *qmgo.InsertOneResult, err error) {
+
+	one := BitTorrentBid{}
+	err = cliContent.Find(ctx, M{"infohash": data.InfoHash}).One(&one)
+
+	if err != nil {
+		return TorrentOriginAdd(data)
 	}
 
-	return nil, errors.New("mongo disconnected!")
+	oneData := M{"$set": M{
+		"files":      data.Files,
+		"updatetime": time.Now(),
+	}}
+
+	err = cliContent.UpdateOne(ctx, M{"infohash": data.InfoHash}, oneData)
+	if err != nil {
+		return nil, errors.Wrap(err, "bt update")
+	}
+	return nil, nil
 }
 
-func DeleteTorrent() {
-}
+func TorrentOriginAdd(data BitTorrent) (result *qmgo.InsertOneResult, err error) {
 
-func Debug() {
+	dlen := 0
+	for _, f := range data.Files {
+		dlen += f.Length
+	}
 
-	fmt.Println("ddd")
+	data.Length = dlen
+	data.Updatetime = time.Now()
+	data.Createtime = time.Now()
+
+	result, err = collection.InsertOne(ctx, data)
+	if err != nil {
+		return nil, errors.Wrap(err, "bt add")
+	}
+	return result, nil
 }

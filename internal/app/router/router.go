@@ -40,6 +40,9 @@ func autoMakeCustomConf(customConf string) error {
 	cfg.Section("web").Key("http_port").SetValue("11010")
 	cfg.Section("session").Key("provider").SetValue("memory")
 
+	cfg.Section("mongodb").Key("addr").SetValue("127.0.0.1:27017")
+	cfg.Section("mongodb").Key("db").SetValue("simdht")
+
 	os.MkdirAll(filepath.Dir(customConf), os.ModePerm)
 	if err := cfg.SaveTo(customConf); err != nil {
 		return err

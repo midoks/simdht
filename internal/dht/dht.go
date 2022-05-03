@@ -48,7 +48,7 @@ func Run() {
 				bt.Length = info["length"].(int)
 			}
 
-			mgdb.AddTorrent(bt)
+			mgdb.TorrentAdd(bt)
 
 			data, err := json.Marshal(bt)
 			if err == nil {
