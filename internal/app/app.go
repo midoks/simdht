@@ -15,7 +15,9 @@ func Start(port string) {
 
 	r := router.New()
 	r.GET("/", Index)
-	r.GET("/s/{KW}", Soso)
+	r.GET("/s/{KW}.html", Soso)
+	r.GET("/s/{KW}/{Cat}/{Sort}.html", Soso)
+	r.GET("/s/{KW}/{Cat}/{Sort}/{Pos}.html", Soso)
 	r.GET("/info/{HASH_ID}", Info)
 	r.GET("/gc", admin.GcInfo)
 	r.GET("/debug", Debug)
@@ -36,8 +38,14 @@ func Soso(ctx *fasthttp.RequestCtx) {
 	_this := context.Base(ctx)
 
 	keyword := ctx.UserValue("KW")
-	fmt.Println("soso:", keyword)
+	cat := ctx.UserValue("Cat")
+	sort := ctx.UserValue("Sort")
 
+	fmt.Println("keyword:", keyword)
+	fmt.Println("cat:", cat)
+	fmt.Println("sort:", sort)
+
+	_this.Data["Kw"] = keyword
 	_this.Data["Name"] = "ww"
 
 	_this.HTML(200, "search/index")

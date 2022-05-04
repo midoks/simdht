@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">SODHT</a>
+            <a class="navbar-brand" href="/">SIMDHT</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -19,7 +19,7 @@
 
             <div class="navbar-form navbar-left">
                 <div class="input-group">
-                    <input type="text" autocomplete="off" class="form-control x-kw" name="kw" placeHolder="" value="">
+                    <input type="text" autocomplete="off" class="form-control x-kw" name="kw" placeHolder="" value="{{.Kw}}">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="submit">
                             <span class="glyphicon glyphicon-search"></span>
@@ -27,7 +27,6 @@
                     </span>
                 </div>
             </div>
-            
         </div>
     </div>
 </nav>
@@ -125,14 +124,8 @@ $(document).ready(function(){
                         </ul>
                     </div>  
                 </span> |
-                <!-- <a href="/" target="_blank"></a> | -->
-                <a href="http://www.bittorrent.org/beps/bep_0005.html" target="_blank"></a> |
+                <a href="http://www.bittorrent.org/beps/bep_0005.html" target="_blank">DHT</a> |
                 <a class="hidden-xs" href="/cdn-cgi/trace" target="_blank">TRACE</a>
-                <span class="hidden-xs">|</span>
-                <a href="http://m3u8.cachecha.com" target="_blank">M3U8</a> 
-                <span>|</span>
-                <!-- class="hidden-xs" -->
-                <a  href="https://m.biqu.xyz" target="_blank">BIQU</a> 
                 
             </span>
         </div>

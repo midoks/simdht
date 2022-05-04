@@ -15,18 +15,17 @@
 <link href="/static/css/bootstrap.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/bootstrap-theme.min.css?v={{Version}}" rel="stylesheet">
 <link href="/static/css/main.css?v={{Version}}" rel="stylesheet">
-<script src="/static/js/jquery-1.11.0.min.js?v={{Version}}"></script>
+
 </head>
 <body>
 
-<script src="/static/js/bootstrap.min.js?v={{Version}}"></script>
-<script src="/static/js/bootstrap-typeahead.min.js?v={{Version}}"></script>
-<script src="/static/js/main.js?v={{Version}}"></script>
+
 <script type="text/javascript">
 
 $('.x-sform').submit(function(e){
     e.preventDefault();
     var kw = $('.x-kw').val();
+    kw = '{{.Kw}}';
 
     if (kw.length<=1){
         window.alert('At least 2 words!!!');
@@ -39,7 +38,7 @@ $('.x-sform').submit(function(e){
         $('.x-kw').focus();
         return false;
     }
-    var url = '/s/' + encodeURIComponent(kw) + '_c0_f0_1.html';
+    var url = '/s/' + encodeURIComponent(kw) + '/c0/f0/1.html';
     window.location = url;
     return false;
 });

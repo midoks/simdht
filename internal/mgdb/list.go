@@ -1,11 +1,14 @@
 package mgdb
 
 import (
-	// "fmt"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
 	"github.com/qiniu/qmgo"
+	"github.com/qiniu/qmgo/operator"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type File struct {
@@ -69,4 +72,33 @@ func TorrentOriginAdd(data BitTorrent) (result *qmgo.InsertOneResult, err error)
 		return nil, errors.Wrap(err, "bt add")
 	}
 	return result, nil
+}
+
+func TorrentOriginFindSoso(id, sort, op, keyword string, limit ...int64) (result []BitTorrentBid, err error) {
+	var batch []BitTorrentBid
+
+	var bNum int64
+	if len(limit) > 0 {
+		bNum = limit[0]
+	} else {
+		bNum = 15
+	}
+
+	sortField := fmt.Sprintf("%s_id", sort)
+
+	opt := M{}
+	if !strings.EqualFold(id, "") {
+		mgId, err := primitive.ObjectIDFromHex(id)
+		if err != nil {
+			return batch, err
+		}
+		opt["_id"] = M{op: mgId}
+	}
+
+	if !strings.EqualFold(keyword, "") {
+		opt["name"] = M{operator.Regex: keyword, "$options": "im"}
+	}
+
+	err = cliContent.Find(ctx, opt).Sort(sortField).Limit(bNum).All(&batch)
+	return batch, err
 }
